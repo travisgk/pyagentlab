@@ -63,7 +63,10 @@ class GomokuState( State ):
 		return self.add_fc
 
 	def create_legal_subjective_action_mask( self, player_num ):
-		mask = np.zeros( CONST.CONTINUOUS_ACTION_DIM + CONST.FLATTENED_DISCRETE_ACTION_DIM, dtype=bool )
+		mask = np.zeros( 
+			CONST.CONTINUOUS_ACTION_DIM + CONST.FLATTENED_DISCRETE_ACTION_DIM, 
+			dtype=bool 
+		)
 		flattened = np.ravel( self.conv[0] )
 		mask[CONST.CONTINUOUS_ACTION_DIM:] = ( flattened == State.ONE_HOT_TRUE )
 		
