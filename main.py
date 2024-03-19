@@ -4,7 +4,6 @@ import torch as T
 import torch.nn as nn
 from panda.constants import CONST
 from panda.environment.environment import Environment
-from panda.environment.state import State
 from panda.player.neural.neural_player import NeuralPlayer
 from panda.player.player import Player
 from panda.profile.layer_spec import ConvLayerSpec, FClayerSpec
@@ -12,7 +11,6 @@ from panda.profile.neural_profile import NeuralProfile
 from panda.profile.profile import Profile
 from panda.simulation.play_episodes import play_episodes
 from custom.gomoku.gomoku_state import GomokuState
-import time
 
 # runs many episodes of Tic-Tac-Toe with one neural network playing itself.
 # first, <CONST> is set to the desired specifications.
