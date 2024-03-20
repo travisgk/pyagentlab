@@ -19,7 +19,7 @@ The setup in the source code does not make use of the additional fully-connected
 <br>
 <br>
 ## The Neural Process
-![neural process](https://github.com/travisgx/panda/blob/main/_diagrams/_layout_panda.png)
+![neural process](https://raw.githubusercontent.com/travisgx/panda/main/_diagrams/_layout_panda.png)
 panda/constants.py (CONST) and the Player's Profile have settings which influence the neural network's process. 
 
 This system is set up to accommodate a continuous action space, however, there is not yet any implementation for the neural network to learn the best continuous actions. As such, the step of choosing the best action here only finds the optimal discrete action selections.
