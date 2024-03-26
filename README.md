@@ -1,5 +1,4 @@
-# panda (version 0.1)
-## Platform for Agent Network Development and Analysis
+# pyagentlab (v0.1)
 This project allows for the quick creation of agent networks (autonomous entities) under PyTorch and testing them in a defined custom environment.
 
 ## Workflow
