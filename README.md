@@ -24,10 +24,9 @@ These methods designed for overriding are:
 - `_loss_condition(action, player_num, episode_n_steps)` - returns `True` if player #`player_num` reaches a losing position by taking discrete action selection `action` at the episode's `episode_n_steps`-th steps. by default this willl return `False`.
 - `_draw_condition(action, player_num, episode_n_steps)` - returns `True` if player #`player_num` reaches a draw position by taking discrete action selection `action` at the episode's `episode_n_steps`-th steps. by default this willl return `False`.
 <br>
-<br>
 
 ### Running episodes with a neural network
-The module `constants` contains the `Const` class, which holds system configurations that should be set up before creating the environment and agent.
+The module `constants` contains the `Const` class, which holds system configurations that should be set up before creating the environment and agent. For Tic-Tac-Toe, these look like:
 ```
 from pyagentlab import *
 from gomoku_state import GomokuState
@@ -49,7 +48,38 @@ Const.WIN_ENDS_ENTIRE_ENV = True
 
 # the Const class has some assisting values computed.
 Const.finalize()
+
+# settings for the game of Gomoku are specified.
+GomokuState.WIN_LENGTH = 3
 ```
+<br>
 
+The system has now been set up to accomodate the game's custom State.
+The architecture and behavior of a neural network is specified with a `NeuralProfile` and its contained list of `ConvLayerSpec` objects and `FClayerSpec` objects, then an agent network is created as a `NeuralPlayer`:
+```
+NEURAL_PROFILE = NeuralProfile(
+	WIN_REWARD=1.0,
+	LOSS_REWARD=0.0,
+	CONV_LAYER_SPECS=[ConvLayerSpec(128, 3)],
+	FC_LAYER_SPECS=[FclayerSpec(16, BIAS=True)],
+)
+neural_player = NeuralPlayer(NEURAL_PLAYER)
+```
+<br>
 
+An agent network that makes purely random moves can be created with:
+```
+RANDOM_PROFILE = Profile(ENFORCE_LEGALITY=True)
+random_player = Player(RANDOM_PROFILE)
+```
+<br>
 
+Finally, a list of players is created, the environment is created for the custom State class, and episodes are played:
+```
+players = [neural_player, random_player]
+env = Environment(StateClass=GomokuState)
+play_episodes(10000, env, players, is_training=True)
+
+# saves the neural network's weights to file.
+neural_player.save_checkpoints();
+```
