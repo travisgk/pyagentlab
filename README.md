@@ -3,6 +3,7 @@ This package allows for the quick creation of agent networks (autonomous entitie
 <br>
 <br>
 ## Installation
+pyagentlab makes use of [numpy](https://github.com/numpy/numpy) and [pytorch](https://github.com/pytorch/pytorch).
 The necessary packages can be installed with pip using the command `pip install numpy torch`.
 <br>
 <br>
