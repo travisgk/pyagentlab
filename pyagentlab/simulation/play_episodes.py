@@ -1,3 +1,11 @@
+"""
+pyagentlab/simulation/play_episodes.py
+---
+this file defines functions to run episodes of the custom defined-environment.
+ 
+"""
+
+
 from collections import deque
 from pyagentlab.constants import CONST
 from pyagentlab.environment.outcome import OUTCOME
