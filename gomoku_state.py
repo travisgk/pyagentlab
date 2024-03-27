@@ -46,8 +46,8 @@ class GomokuState(State):
     # sets up
     def reset(self):
         super().reset()
-        self.conv = np.copy(State.BLANK_CONV_OBS) if uses_conv() else None
-        self.add_fc = np.copy(State.BLANK_ADD_FC_OBS) if uses_add_fc() else None
+        self.conv = copy.deepcopy(State.BLANK_CONV_OBS) if uses_conv() else None
+        self.add_fc = copy.deepcopy(State.BLANK_ADD_FC_OBS) if uses_add_fc() else None
 
         for x in range(Const.CONV_WIDTH):
             for y in range(Const.CONV_HEIGHT):
@@ -59,7 +59,7 @@ class GomokuState(State):
             for i in range(1 + Const.N_PLAYERS)
         ]
 
-    def to_add_fc_obs(self, perspective):
+    def to_add_fc_obs(self, perspective=None):
         return self.add_fc
 
     def create_legal_subjective_action_mask(self, player_num):
@@ -84,9 +84,9 @@ class GomokuState(State):
         self.conv[0][x][y] = State.ONE_HOT_FALSE
         self.conv[player_num][x][y] = State.ONE_HOT_TRUE
 
-    def _win_condition(self, action, player_num=None, local_n_steps=None):
+    def _win_condition(self, action, player_num=None, episode_n_steps=None):
         x, y = action[-2:]
-        return local_n_steps >= GomokuState.WIN_LENGTH - 1 and self._has_line(
+        return episode_n_steps >= GomokuState.WIN_LENGTH - 1 and self._has_line(
             player_num, GomokuState.WIN_LENGTH, (x, y)
         )
 

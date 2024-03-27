@@ -65,7 +65,7 @@ class _LearningPlayer(Player):
                         State.BLANK_CONV_OBS,
                         State.BLANK_ADD_FC_OBS,
                         action,
-                        reward if legal else self.PROFILE.ILLEGAL_VALUE,
+                        reward if legal else self.PROFILE.ILLEGAL_REWARD,
                         True,
                     ),
                     legal,

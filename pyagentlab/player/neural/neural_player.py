@@ -227,7 +227,7 @@ class NeuralPlayer(_LearningPlayer):
             )
 
             # manually sets the Q-values of illegal actions in the next states
-            # to <self.PROFILE.ILLEGAL_VALUE> if specified to do so.
+            # to <self.PROFILE.ILLEGAL_REWARD> if specified to do so.
             if self.PROFILE.FORCE_ILLEGALS_IN_NEXTS:
                 for i, t in enumerate(transitions):
                     if not next_is_dones[i] and t.prev_state.action_is_legal(t.action):
@@ -236,7 +236,7 @@ class NeuralPlayer(_LearningPlayer):
                         )
                         t_evals[i][m] = -np.Infinity
                         if self._q_next:
-                            t_nexts[i][m] = self.PROFILE.ILLEGAL_VALUE
+                            t_nexts[i][m] = self.PROFILE.ILLEGAL_REWARD
 
             # sets the Q-values of the terminal states to 0.0.
             t_evals[next_is_dones] = 0.0

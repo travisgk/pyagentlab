@@ -1,4 +1,3 @@
-from collections import deque
 import numpy as np
 import torch as T
 import torch.nn as nn
@@ -22,15 +21,14 @@ def main():
     Const.WIN_ENDS_ENTIRE_ENV = True
     Const.finalize()
     GomokuState.WIN_LENGTH = 3
-
     NEURAL_PROFILE = NeuralProfile(
         # outcome settings.
-        WIN_VALUE=1.0,
-        DRAW_VALUE=1.0,
-        LOSS_VALUE=0.0,
-        ILLEGAL_VALUE=-0.1,
-        WIN_VALUE_RANK_FACTOR=0.9,
-        LOSS_VALUE_RANK_FACTOR=0.9,
+        WIN_REWARD=1.0,
+        DRAW_REWARD=1.0,
+        LOSS_REWARD=0.0,
+        ILLEGAL_REWARD=-0.1,
+        WIN_REWARD_RANK_FACTOR=0.9,
+        LOSS_REWARD_RANK_FACTOR=0.9,
         # epsilon settings.
         EPS_START=0.7,
         EPS_DEC=5e-6,

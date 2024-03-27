@@ -48,10 +48,10 @@ class State:
     def reset(self):
         return
 
-    def to_conv_obs(self, perspective):
+    def to_conv_obs(self, perspective=None):
         return State.BLANK_CONV_OBS
 
-    def to_add_fc_obs(self, perspective):
+    def to_add_fc_obs(self, perspective=None):
         return State.BLANK_ADD_FC_OBS
 
     # returns a flattened binary mask of <player_num>'s illegal actions.
@@ -89,7 +89,7 @@ class State:
     # and 2) a bool indicating if the resulting state is a terminal state,
     # 3) an indicator of if the player has won/lost the game,
     # and 4) a bool indicating if the action were legal.
-    def take_action(self, action, player_num=None, local_n_steps=None):
+    def take_action(self, action, player_num=None, episode_n_steps=None):
         reward = 0.0
         player_done = False
         outcome = None
@@ -113,13 +113,13 @@ class State:
 
         # determines outcome using methods
         # that can be overridden in child classes.
-        if self._win_condition(action, player_num, local_n_steps):
+        if self._win_condition(action, player_num, episode_n_steps):
             player_done = True
             outcome = OUTCOME.WIN
-        elif self._loss_condition(action, player_num, local_n_steps):
+        elif self._loss_condition(action, player_num, episode_n_steps):
             player_done = True
             outcome = OUTCOME.LOSS
-        elif self._draw_condition(action, player_num, local_n_steps):
+        elif self._draw_condition(action, player_num, episode_n_steps):
             player_done = True
             outcome = OUTCOME.DRAW
 
@@ -132,17 +132,17 @@ class State:
 
     # returns True if some winning condition has been met by playing <action>.
     # this method is intentionally blank and left to be manually overridden.
-    def _win_condition(self, action, player_num=None, local_n_steps=None):
+    def _win_condition(self, action, player_num=None, episode_n_steps=None):
         return False
 
     # returns True if some losing condition has been met by playing <action>.
     # this method is intentionally blank and left to be manually overridden.
-    def _loss_condition(self, action, player_num=None, local_n_steps=None):
+    def _loss_condition(self, action, player_num=None, episode_n_steps=None):
         return False
 
     # returns True if some drawing condition has been met by playing <action>.
     # this method is intentionally blank and left to be manually overridden.
-    def _draw_condition(self, action, player_num=None, local_n_steps=None):
+    def _draw_condition(self, action, player_num=None, episode_n_steps=None):
         return False
 
     def to_str(self):

@@ -42,18 +42,18 @@ class Episode:
         if len(legal_indices) > 0:
             last = legal_indices[-1]
             if player_outcome == OUTCOME.WIN:
-                self.transitions[last].reward = PROFILE.WIN_VALUE * (
+                self.transitions[last].reward = PROFILE.WIN_REWARD * (
                     1
                     if not player_rank
-                    else PROFILE.WIN_VALUE_RANK_FACTOR ** (player_rank - 1)
+                    else PROFILE.WIN_REWARD_RANK_FACTOR ** (player_rank - 1)
                 )
             elif player_outcome == OUTCOME.DRAW:
-                self.transitions[last].reward = PROFILE.DRAW_VALUE
+                self.transitions[last].reward = PROFILE.DRAW_REWARD
             elif player_outcome == OUTCOME.LOSS:
-                self.transitions[last].reward = PROFILE.LOSS_VALUE * (
+                self.transitions[last].reward = PROFILE.LOSS_REWARD * (
                     1
                     if not player_rank or not worst_rank
-                    else PROFILE.LOSS_VALUE_RANK_FACTOR ** (worst_rank - player_rank)
+                    else PROFILE.LOSS_REWARD_RANK_FACTOR ** (worst_rank - player_rank)
                 )
 
         # calculates score to be later returned.

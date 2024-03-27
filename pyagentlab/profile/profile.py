@@ -5,10 +5,10 @@ this file defines a class that specifies the learning process
 and reward mechanism for a generic agent.
 
 ---
--<WIN_VALUE> will be multiplied with the exponential <WIN_VALUE_RANK_FACTOR>
+-<WIN_REWARD> will be multiplied with the exponential <WIN_REWARD_RANK_FACTOR>
  for each rank below 1 in order to calculate the Player's reward for winning.
 
--<LOSS_VALUE> will be multiplied with the exponential <LOSS_VALUE_RANK_FACTOR>
+-<LOSS_REWARD> will be multiplied with the exponential <LOSS_REWARD_RANK_FACTOR>
  for each rank above the last rank in order 
  to calculate the Player's reward for winning.
  
@@ -26,12 +26,12 @@ class Profile:
     def __init__(
         self,
         # outcome settings.
-        WIN_VALUE=0.0,
-        DRAW_VALUE=0.0,
-        LOSS_VALUE=0.0,
-        ILLEGAL_VALUE=0.0,
-        WIN_VALUE_RANK_FACTOR=1.0,
-        LOSS_VALUE_RANK_FACTOR=1.0,
+        WIN_REWARD=0.0,
+        DRAW_REWARD=0.0,
+        LOSS_REWARD=0.0,
+        ILLEGAL_REWARD=0.0,
+        WIN_REWARD_RANK_FACTOR=1.0,
+        LOSS_REWARD_RANK_FACTOR=1.0,
         # epsilon settings.
         EPS_START=0.99,
         EPS_END=0.01,
@@ -51,12 +51,12 @@ class Profile:
         # save directory settings.
         ALGORITHM_NAME="random",
     ):
-        self.WIN_VALUE = WIN_VALUE
-        self.DRAW_VALUE = DRAW_VALUE
-        self.LOSS_VALUE = LOSS_VALUE
-        self.ILLEGAL_VALUE = ILLEGAL_VALUE
-        self.WIN_VALUE_RANK_FACTOR = WIN_VALUE_RANK_FACTOR
-        self.LOSS_VALUE_RANK_FACTOR = LOSS_VALUE_RANK_FACTOR
+        self.WIN_REWARD = WIN_REWARD
+        self.DRAW_REWARD = DRAW_REWARD
+        self.LOSS_REWARD = LOSS_REWARD
+        self.ILLEGAL_REWARD = ILLEGAL_REWARD
+        self.WIN_REWARD_RANK_FACTOR = WIN_REWARD_RANK_FACTOR
+        self.LOSS_REWARD_RANK_FACTOR = LOSS_REWARD_RANK_FACTOR
         if not Profile._categorized:
             Profile._CATEGORIES.organize_new_keys(
                 self.__dict__.keys(), "outcome settings"

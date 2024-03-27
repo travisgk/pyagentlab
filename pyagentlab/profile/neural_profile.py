@@ -28,12 +28,12 @@ class NeuralProfile(Profile):
     def __init__(
         self,
         # outcome settings.
-        WIN_VALUE=0.0,
-        DRAW_VALUE=0.0,
-        LOSS_VALUE=0.0,
-        ILLEGAL_VALUE=0.0,
-        WIN_VALUE_RANK_FACTOR=1.0,
-        LOSS_VALUE_RANK_FACTOR=1.0,
+        WIN_REWARD=0.0,
+        DRAW_REWARD=0.0,
+        LOSS_REWARD=0.0,
+        ILLEGAL_REWARD=0.0,
+        WIN_REWARD_RANK_FACTOR=1.0,
+        LOSS_REWARD_RANK_FACTOR=1.0,
         # epsilon settings.
         EPS_START=0.99,
         EPS_END=0.01,
@@ -75,12 +75,12 @@ class NeuralProfile(Profile):
         ALGORITHM_NAME="neural",
     ):
         super().__init__(
-            WIN_VALUE=WIN_VALUE,
-            DRAW_VALUE=DRAW_VALUE,
-            LOSS_VALUE=LOSS_VALUE,
-            ILLEGAL_VALUE=ILLEGAL_VALUE,
-            WIN_VALUE_RANK_FACTOR=WIN_VALUE_RANK_FACTOR,
-            LOSS_VALUE_RANK_FACTOR=WIN_VALUE_RANK_FACTOR,
+            WIN_REWARD=WIN_REWARD,
+            DRAW_REWARD=DRAW_REWARD,
+            LOSS_REWARD=LOSS_REWARD,
+            ILLEGAL_REWARD=ILLEGAL_REWARD,
+            WIN_REWARD_RANK_FACTOR=WIN_REWARD_RANK_FACTOR,
+            LOSS_REWARD_RANK_FACTOR=WIN_REWARD_RANK_FACTOR,
             EPS_START=EPS_START,
             EPS_END=EPS_END,
             EPS_DEC=EPS_DEC,

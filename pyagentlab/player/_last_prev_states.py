@@ -84,7 +84,7 @@ class LastPrevStatesByPerspective:
             state = BLANK_STATE
             conv_obs = State.BLANK_CONV_OBS
             add_fc_obs = State.BLANK_ADD_FC_OBS
-            reward = PROFILE.ILLEGAL_VALUE
+            reward = PROFILE.ILLEGAL_REWARD
 
         # the next state resulting from an illegal move
         # will not have their total return approximated.
