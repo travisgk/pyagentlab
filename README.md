@@ -7,8 +7,8 @@ The necessary packages can be installed with pip using the command `pip install 
 <br>
 <br>
 ## Usage
-### Customizing the State class
-The State class contains methods for an agent network to interface with it.
+### Creating a custom State class
+The State class contains methods for an agent network to interface with it, which can be overridden in a child class.
 When creating a custom State class, as exemplified in _gomoku_state.py_, these methods can be overridden in order to define rules of the environment, as well as how the custom State gives observations to the agent network.
 These methods designed for overriding are:
 - `setup()` - initializes static class variables.
