@@ -14,9 +14,7 @@ to cut down on computations.
 
 import copy
 import numpy as np
-from pyagentlab.constants import CONST, uses_conv, uses_add_fc
-from pyagentlab.environment.outcome import OUTCOME
-from pyagentlab.environment.state import State, _apply_perspective
+from pyagentlab import *
 
 
 class GomokuState(State):
