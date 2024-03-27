@@ -21,5 +21,35 @@ These methods designed for overriding are:
 - `make_action_objective(self, subjective_action, player_num)` - returns a discrete action selection so that the perspective of player #`player_num` is applied. by default, this method will not apply any sort of perspective, simply returning the `subjective_action` selection as is.
 - `_apply_action(action, player_num)` - applies a discrete action selection to the State for player #`player_num`.
 - `_win_condition(action, player_num, episode_n_steps)` - returns `True` if player #`player_num` reaches a winning position by taking discrete action selection `action` at the episode's `episode_n_steps`-th steps. by default this willl return `False`.
+- `_loss_condition(action, player_num, episode_n_steps)` - returns `True` if player #`player_num` reaches a losing position by taking discrete action selection `action` at the episode's `episode_n_steps`-th steps. by default this willl return `False`.
+- `_draw_condition(action, player_num, episode_n_steps)` - returns `True` if player #`player_num` reaches a draw position by taking discrete action selection `action` at the episode's `episode_n_steps`-th steps. by default this willl return `False`.
+<br>
+<br>
 
-`from pyagentlab import *`
+### Running episodes with a neural network
+The module `constants` contains the `Const` class, which holds system configurations that should be set up before creating the environment and agent.
+```
+from pyagentlab import *
+from gomoku_state import GomokuState
+WIDTH, HEIGHT = 3, 3
+Const.ENV_NAME = "Gomoku"
+Const.N_PLAYERS = 2
+
+# the dimensions of the inputs given to every agent network are specified.
+Const.CONV_INPUT_DIMS = (Const.N_PLAYERS + 1, WIDTH, HEIGHT)
+Const.ADD_FC_INPUT_DIM = 0
+
+# the dimensions of the outputs from every agent network are specified.
+Const.DISCRETE_ACTION_DIMS = (WIDTH, HEIGHT)
+Const.CONTINUOUS_ACTION_DIM = 0
+
+# the behaviors of how a single player reaching
+# their own game outcome affects all the other players is set.
+Const.WIN_ENDS_ENTIRE_ENV = True
+
+# the Const class has some assisting values computed.
+Const.finalize()
+```
+
+
+
