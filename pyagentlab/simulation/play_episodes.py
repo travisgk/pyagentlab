@@ -6,7 +6,7 @@ this file defines functions to run episodes of the custom defined-environment.
 """
 
 from collections import deque
-from pyagentlab.constants import CONST
+from pyagentlab.constants import Const
 from pyagentlab.environment.outcome import OUTCOME
 
 
@@ -100,7 +100,7 @@ def play_episode(env, players, is_training):
         prev_state = next_state
 
     # finalizes scores.
-    scores = [0.0 for _ in range(CONST.N_PLAYERS)]
+    scores = [0.0 for _ in range(Const.N_PLAYERS)]
     for i, player in enumerate(players):
         player_scores = player.finalize_episodes(
             env.return_outcomes(), env.return_win_ranks()

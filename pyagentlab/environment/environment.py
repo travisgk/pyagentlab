@@ -11,7 +11,7 @@ the outcomes for each player, and the rank of each of these outcomes.
 import copy
 from collections import deque
 import numpy as np
-from pyagentlab.constants import CONST
+from pyagentlab.constants import Const
 from .outcome import OUTCOME
 from .state import State
 
@@ -24,17 +24,17 @@ class Environment:
 
         # deques for each perspective with values for graphing.
         self._episode_scores_history = [
-            deque(maxlen=100) for _ in range(CONST.N_PLAYERS)
+            deque(maxlen=100) for _ in range(Const.N_PLAYERS)
         ]
         self._episode_outcomes_history = [
-            deque(maxlen=100) for _ in range(CONST.N_PLAYERS)
+            deque(maxlen=100) for _ in range(Const.N_PLAYERS)
         ]
 
         # lists containing the averages across the above deques.
         # tuples with x and y values.
         # these are for graphing (not yet implemented).
-        self.avg_episode_scores = [[] for _ in range(CONST.N_PLAYERS)]
-        self.avg_episode_outcomes = [[] for _ in range(CONST.N_PLAYERS)]
+        self.avg_episode_scores = [[] for _ in range(Const.N_PLAYERS)]
+        self.avg_episode_outcomes = [[] for _ in range(Const.N_PLAYERS)]
 
         self.StateClass = StateClass if StateClass else State
         StateClass.setup()
@@ -44,10 +44,10 @@ class Environment:
     # resets the environment to an initial state. returns the first state.
     def reset(self):
         self._player_num = 1
-        self._player_dones = [False for _ in range(CONST.N_PLAYERS)]
-        self._player_outcomes = [None for _ in range(CONST.N_PLAYERS)]
+        self._player_dones = [False for _ in range(Const.N_PLAYERS)]
+        self._player_outcomes = [None for _ in range(Const.N_PLAYERS)]
 
-        self._player_win_ranks = [None for _ in range(CONST.N_PLAYERS)]
+        self._player_win_ranks = [None for _ in range(Const.N_PLAYERS)]
         self._last_win_rank = 1
         self._last_loss_rank = 999999
         self.local_n_steps = 0
@@ -94,7 +94,7 @@ class Environment:
                 self._player_win_ranks[player_index] = Environment._DRAW_RANK
             self._determine_final_outcomes(outcome, legal)
 
-            if legal or (not legal and CONST.ILLEGAL_MOVE_STEPS_ENV):
+            if legal or (not legal and Const.ILLEGAL_MOVE_STEPS_ENV):
                 self._step_player_num()
                 self._n_steps += 1
                 self.local_n_steps += 1
@@ -120,20 +120,20 @@ class Environment:
         if any([out in uncertain_outs for out in self._player_outcomes]):
             global_outcome = OUTCOME.LOSS
 
-            if not legal and CONST.ILLEGAL_ENDS_ENTIRE_ENV:
+            if not legal and Const.ILLEGAL_ENDS_ENTIRE_ENV:
                 completely_done = True
                 global_outcome = (
-                    OUTCOME.WIN if CONST.WINS_BY_FORFEIT else OUTCOME.INTERRUPTED
+                    OUTCOME.WIN if Const.WINS_BY_FORFEIT else OUTCOME.INTERRUPTED
                 )
-            elif player_outcome == OUTCOME.WIN and CONST.WIN_ENDS_ENTIRE_ENV:
+            elif player_outcome == OUTCOME.WIN and Const.WIN_ENDS_ENTIRE_ENV:
                 completely_done = True
                 global_outcome = (
-                    OUTCOME.LOSS if CONST.LOSES_BY_ENDING_WIN else OUTCOME.INTERRUPTED
+                    OUTCOME.LOSS if Const.LOSES_BY_ENDING_WIN else OUTCOME.INTERRUPTED
                 )
-            elif player_outcome == OUTCOME.LOSS and CONST.LOSS_ENDS_ENTIRE_ENV:
+            elif player_outcome == OUTCOME.LOSS and Const.LOSS_ENDS_ENTIRE_ENV:
                 completely_done = True
                 global_outcome = (
-                    OUTCOME.WIN if CONST.WINS_BY_ENDING_LOSS else OUTCOME.INTERRUPTED
+                    OUTCOME.WIN if Const.WINS_BY_ENDING_LOSS else OUTCOME.INTERRUPTED
                 )
             elif any([out == OUTCOME.DRAW for out in outs]):
                 completely_done = True
@@ -152,7 +152,7 @@ class Environment:
 
             # sets outcome for all uncertain outcome values.
             if completely_done:
-                for i in range(CONST.N_PLAYERS):
+                for i in range(Const.N_PLAYERS):
                     if self._player_outcomes[i] in uncertain_outs:
                         self._player_outcomes[i] = global_outcome
 
@@ -162,7 +162,7 @@ class Environment:
 
             if not any([out == OUTCOME.DRAW for out in outs]):
                 if not any([out == OUTCOME.WIN for out in outs]):
-                    if CONST.ALL_LOSSES_IS_DRAW:
+                    if Const.ALL_LOSSES_IS_DRAW:
                         # there are no wins or draws in the list of outcomes.
                         n_losses = self._player_outcomes.count(OUTCOME.LOSS)
                         if n_losses > 1:
@@ -172,7 +172,7 @@ class Environment:
                             for i in loss_indices:
                                 self._player_outcomes[i] = OUTCOME.DRAW
                 else:
-                    if CONST.ALL_WINS_IS_DRAW and not any(
+                    if Const.ALL_WINS_IS_DRAW and not any(
                         [out == OUTCOME.LOSS for out in outs]
                     ):
                         n_wins = self._player_outcomes.count(OUTCOME.WIN)
@@ -185,7 +185,7 @@ class Environment:
 
             # finalizes player rankings.
             unranked_player_indices = [
-                i for i in range(CONST.N_PLAYERS) if not self._player_win_ranks[i]
+                i for i in range(Const.N_PLAYERS) if not self._player_win_ranks[i]
             ]
             for i in unranked_player_indices:
                 if self._player_outcomes[i] == OUTCOME.WIN:
@@ -206,11 +206,11 @@ class Environment:
             ]
 
     # increments <self._player_num>.
-    # the value fluctuates 1 to <CONST.N_PLAYERS> + 1.
+    # the value fluctuates 1 to <Const.N_PLAYERS> + 1.
     def _step_player_num(self):
         if not self.entirely_done():
             while True:
-                self._player_num = self._player_num % CONST.N_PLAYERS + 1
+                self._player_num = self._player_num % Const.N_PLAYERS + 1
                 if self._player_dones[self._player_num - 1] is False:
                     break
 
@@ -237,23 +237,23 @@ class Environment:
     def append_score_and_outcome_history(self, scores, history_offset=0):
         # appends to history deques.
         for i, score in enumerate(scores):
-            element = (i + history_offset) % CONST.N_PLAYERS
+            element = (i + history_offset) % Const.N_PLAYERS
             self._episode_scores_history[element].append(score)
 
         for i, outcome in enumerate(self._player_outcomes):
-            element = (i + history_offset) % CONST.N_PLAYERS
+            element = (i + history_offset) % Const.N_PLAYERS
             self._episode_outcomes_history[element].append(self._player_outcomes)
 
-        if self._n_steps % CONST.ENV_LOG_HISTORY_INTERVAL == 0 and self._n_steps > 0:
+        if self._n_steps % Const.ENV_LOG_HISTORY_INTERVAL == 0 and self._n_steps > 0:
             # appends to graphable lists.
-            for i in range(CONST.N_PLAYERS):
-                element = (i + history_offset) % CONST.N_PLAYERS
+            for i in range(Const.N_PLAYERS):
+                element = (i + history_offset) % Const.N_PLAYERS
                 self.avg_episode_scores[element].append(
                     (self._n_steps, np.mean(self._episode_scores_history[element]))
                 )
 
-            for i in range(CONST.N_PLAYERS):
-                element = (i + history_offset) % CONST.N_PLAYERS
+            for i in range(Const.N_PLAYERS):
+                element = (i + history_offset) % Const.N_PLAYERS
                 wins = 0
                 losses = 0
                 draws = 0

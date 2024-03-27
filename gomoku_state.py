@@ -14,7 +14,9 @@ to cut down on computations.
 
 import copy
 import numpy as np
-from pyagentlab import *
+from pyagentlab.constants import Const, uses_conv, uses_add_fc
+from pyagentlab.environment.outcome import OUTCOME
+from pyagentlab.environment.state import State, _apply_perspective
 
 
 class GomokuState(State):
@@ -47,14 +49,14 @@ class GomokuState(State):
         self.conv = np.copy(State.BLANK_CONV_OBS) if uses_conv() else None
         self.add_fc = np.copy(State.BLANK_ADD_FC_OBS) if uses_add_fc() else None
 
-        for x in range(CONST.CONV_WIDTH):
-            for y in range(CONST.CONV_HEIGHT):
+        for x in range(Const.CONV_WIDTH):
+            for y in range(Const.CONV_HEIGHT):
                 self.conv[0][x][y] = State.ONE_HOT_TRUE
 
     def to_conv_obs(self, perspective):
         return [
             self.conv[_apply_perspective(i, perspective)]
-            for i in range(1 + CONST.N_PLAYERS)
+            for i in range(1 + Const.N_PLAYERS)
         ]
 
     def to_add_fc_obs(self, perspective):
@@ -62,11 +64,11 @@ class GomokuState(State):
 
     def create_legal_subjective_action_mask(self, player_num):
         mask = np.zeros(
-            CONST.CONTINUOUS_ACTION_DIM + CONST.FLATTENED_DISCRETE_ACTION_DIM,
+            Const.CONTINUOUS_ACTION_DIM + Const.FLATTENED_DISCRETE_ACTION_DIM,
             dtype=bool,
         )
         flattened = np.ravel(self.conv[0])
-        mask[CONST.CONTINUOUS_ACTION_DIM :] = flattened == State.ONE_HOT_TRUE
+        mask[Const.CONTINUOUS_ACTION_DIM :] = flattened == State.ONE_HOT_TRUE
 
         return mask
 
@@ -91,11 +93,11 @@ class GomokuState(State):
     def to_str(self):
         LEFT_SPACING = 9
         result = ""
-        for y in range(CONST.CONV_HEIGHT):
+        for y in range(Const.CONV_HEIGHT):
             result += " " * LEFT_SPACING
-            for x in range(CONST.CONV_WIDTH):
+            for x in range(Const.CONV_WIDTH):
                 char = GomokuState.MARKERS[0]
-                for l in range(1, 1 + CONST.N_PLAYERS):
+                for l in range(1, 1 + Const.N_PLAYERS):
                     if self.conv[l][x][y] == State.ONE_HOT_TRUE:
                         char = GomokuState.MARKERS[l]
                         break
@@ -109,8 +111,8 @@ class GomokuState(State):
     def _has_open_spaces(self):
         return any(
             self.conv[0][x][y] == State.ONE_HOT_TRUE
-            for x in range(CONST.CONV_WIDTH)
-            for y in range(CONST.CONV_HEIGHT)
+            for x in range(Const.CONV_WIDTH)
+            for y in range(Const.CONV_HEIGHT)
         )
 
     # returns True if there's a line of at least <line_length>
@@ -130,7 +132,7 @@ class GomokuState(State):
 
     # initializes static lists to quickly determine if a line has been formed.
     def _setup_lines():
-        W, H = CONST.CONV_WIDTH, CONST.CONV_HEIGHT
+        W, H = Const.CONV_WIDTH, Const.CONV_HEIGHT
         GomokuState.LINES = []
 
         # creates rows.

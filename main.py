@@ -7,20 +7,20 @@ from gomoku_state import GomokuState
 
 
 # runs many episodes of Tic-Tac-Toe with one neural network playing itself.
-# first, <CONST> is set to the desired specifications.
+# first, <Const> is set to the desired specifications.
 # then, the profiles are set up and players are created.
 # next, the environment is created,
 # and finally, the episodes are run.
 def main():
-    CONST.ENV_NAME = "Gomoku"
+    Const.ENV_NAME = "Gomoku"
     width, height = 3, 3
-    CONST.N_PLAYERS = 2
-    CONST.CONV_INPUT_DIMS = (CONST.N_PLAYERS + 1, width, height)
-    CONST.ADD_FC_INPUT_DIM = 0
-    CONST.DISCRETE_ACTION_DIMS = (width, height)
-    CONST.CONTINUOUS_ACTION_DIM = 0
-    CONST.WIN_ENDS_ENTIRE_ENV = True
-    CONST.finalize()
+    Const.N_PLAYERS = 2
+    Const.CONV_INPUT_DIMS = (Const.N_PLAYERS + 1, width, height)
+    Const.ADD_FC_INPUT_DIM = 0
+    Const.DISCRETE_ACTION_DIMS = (width, height)
+    Const.CONTINUOUS_ACTION_DIM = 0
+    Const.WIN_ENDS_ENTIRE_ENV = True
+    Const.finalize()
     GomokuState.WIN_LENGTH = 3
 
     NEURAL_PROFILE = NeuralProfile(

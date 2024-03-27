@@ -1,4 +1,4 @@
-from .constants import CONST, uses_conv, uses_add_fc
+from .constants import Const, uses_conv, uses_add_fc
 from .environment.environment import Environment
 from .environment.outcome import OUTCOME
 from .environment.state import State, _apply_perspective

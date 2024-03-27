@@ -6,7 +6,7 @@ they give specifications for the dimensions of inputs
 and outputs for a network.
 
 these values should be modified externally 
-and then <CONST.finalize()> should be run.
+and then <Const.finalize()> should be run.
 
 """
 
@@ -15,14 +15,14 @@ import numpy as np
 
 
 def uses_conv():
-    return CONST.CONV_INPUT_DIMS
+    return Const.CONV_INPUT_DIMS
 
 
 def uses_add_fc():
-    return CONST.ADD_FC_INPUT_DIM
+    return Const.ADD_FC_INPUT_DIM
 
 
-class CONST:
+class Const:
     CHECKPOINT_DIRECTORY = os.path.join("pyagentlab", "models")
     ENV_NAME = "env"
 
@@ -71,16 +71,16 @@ class CONST:
     # logging setting (graphs are not yet implemented).
     ENV_LOG_HISTORY_INTERVAL = 100
 
-    # this function is to be called once CONST has been customized.
+    # this function is to be called once Const has been customized.
     def finalize():
-        CONST.N_CONV_CHANNELS = (
-            CONST.CONV_INPUT_DIMS[0] if len(CONST.CONV_INPUT_DIMS) >= 1 else 0
+        Const.N_CONV_CHANNELS = (
+            Const.CONV_INPUT_DIMS[0] if len(Const.CONV_INPUT_DIMS) >= 1 else 0
         )
-        CONST.CONV_WIDTH = (
-            CONST.CONV_INPUT_DIMS[1] if len(CONST.CONV_INPUT_DIMS) >= 2 else 0
+        Const.CONV_WIDTH = (
+            Const.CONV_INPUT_DIMS[1] if len(Const.CONV_INPUT_DIMS) >= 2 else 0
         )
-        CONST.CONV_HEIGHT = (
-            CONST.CONV_INPUT_DIMS[2] if len(CONST.CONV_INPUT_DIMS) >= 3 else 0
+        Const.CONV_HEIGHT = (
+            Const.CONV_INPUT_DIMS[2] if len(Const.CONV_INPUT_DIMS) >= 3 else 0
         )
-        CONST.FLATTENED_DISCRETE_ACTION_DIM = np.prod(CONST.DISCRETE_ACTION_DIMS)
-        os.makedirs(CONST.CHECKPOINT_DIRECTORY, exist_ok=True)
+        Const.FLATTENED_DISCRETE_ACTION_DIM = np.prod(Const.DISCRETE_ACTION_DIMS)
+        os.makedirs(Const.CHECKPOINT_DIRECTORY, exist_ok=True)

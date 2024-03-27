@@ -7,26 +7,26 @@ which can be given to a State to execute some transition.
 """
 
 import numpy as np
-from pyagentlab.constants import CONST
+from pyagentlab.constants import Const
 from .action import subjective_action_from_network_output
 
 
-# returns an action with random values that fall within CONST specifications.
+# returns an action with random values that fall within Const specifications.
 def random_subjective_action(illegal_action_mask=None):
     continuous_output = [
         (
             np.random.uniform(
-                CONST.CONTINUOUS_ACTION_LIMITS[i][0],
-                CONST.CONTINUOUS_ACTION_LIMITS[i][1],
+                Const.CONTINUOUS_ACTION_LIMITS[i][0],
+                Const.CONTINUOUS_ACTION_LIMITS[i][1],
             )
-            if i < len(CONST.CONTINUOUS_ACTION_LIMITS)
+            if i < len(Const.CONTINUOUS_ACTION_LIMITS)
             else np.random.rand()
         )
-        for i in range(CONST.CONTINUOUS_ACTION_DIM)
+        for i in range(Const.CONTINUOUS_ACTION_DIM)
     ]
 
     discrete_output = [
-        np.random.rand() for _ in range(CONST.FLATTENED_DISCRETE_ACTION_DIM)
+        np.random.rand() for _ in range(Const.FLATTENED_DISCRETE_ACTION_DIM)
     ]
 
     output = continuous_output + discrete_output

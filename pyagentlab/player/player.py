@@ -21,7 +21,7 @@ objective State --> subjective observations
 
 """
 
-from pyagentlab.constants import CONST
+from pyagentlab.constants import Const
 from pyagentlab.environment.action.random_action import random_subjective_action
 
 

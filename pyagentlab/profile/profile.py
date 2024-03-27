@@ -15,7 +15,7 @@ and reward mechanism for a generic agent.
 """
 
 import os
-from pyagentlab.constants import CONST
+from pyagentlab.constants import Const
 from ._option_categories import _OptionCategories
 
 
@@ -97,7 +97,7 @@ class Profile:
 
         self.ALGORITHM_NAME = ALGORITHM_NAME
         self.PLAYER_SAVE_PATH = os.path.join(
-            CONST.CHECKPOINT_DIRECTORY, f"{CONST.ENV_NAME}_{self.ALGORITHM_NAME}"
+            Const.CHECKPOINT_DIRECTORY, f"{Const.ENV_NAME}_{self.ALGORITHM_NAME}"
         )
         if not Profile._categorized:
             Profile._CATEGORIES.organize_new_keys(

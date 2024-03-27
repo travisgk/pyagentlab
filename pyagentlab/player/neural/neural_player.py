@@ -14,7 +14,7 @@ import torch as T
 import torch.nn as nn
 import torch.optim as optim
 import torch.optim.lr_scheduler as lr_scheduler
-from pyagentlab.constants import CONST, uses_conv, uses_add_fc
+from pyagentlab.constants import Const, uses_conv, uses_add_fc
 from pyagentlab.environment.action.action import (
     action_to_combo_num,
     subjective_action_from_network_output,
@@ -245,8 +245,8 @@ class NeuralPlayer(_LearningPlayer):
 
             # creates a tensor of maximal action selections.
             t_max_actions = (
-                T.argmax(t_evals[:, CONST.CONTINUOUS_ACTION_DIM :], dim=1)
-                + CONST.CONTINUOUS_ACTION_DIM
+                T.argmax(t_evals[:, Const.CONTINUOUS_ACTION_DIM :], dim=1)
+                + Const.CONTINUOUS_ACTION_DIM
             )
 
             # creates the targets tensor for loss.

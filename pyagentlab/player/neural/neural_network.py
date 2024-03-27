@@ -13,7 +13,7 @@ import torch as T
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.nn.init as init
-from pyagentlab.constants import CONST, uses_conv, uses_add_fc
+from pyagentlab.constants import Const, uses_conv, uses_add_fc
 from pyagentlab.environment.state import State
 
 
@@ -27,7 +27,7 @@ class NeuralNetwork(nn.Module):
         self._create_conv_batch_norms()
         self._create_conv_dropout_layers()
 
-        self._FLATTENS_BEFORE_BC = len(CONST.CONV_INPUT_DIMS) > 1
+        self._FLATTENS_BEFORE_BC = len(Const.CONV_INPUT_DIMS) > 1
 
         self._create_fc_layers()
         self._create_fc_batch_norms()
@@ -37,7 +37,7 @@ class NeuralNetwork(nn.Module):
         self._conv_layers = nn.ModuleList()
         for i, spec in enumerate(self._PROFILE.CONV_LAYER_SPECS):
             if i == 0:
-                in_filters = CONST.CONV_INPUT_DIMS[0]
+                in_filters = Const.CONV_INPUT_DIMS[0]
                 out_filters = spec.N_FILTERS
             else:
                 in_filters = self._PROFILE.CONV_LAYER_SPECS[i - 1].N_FILTERS
@@ -72,8 +72,8 @@ class NeuralNetwork(nn.Module):
 
     def _create_fc_layers(self):
         n_conv_output_dims = self._calc_n_conv_outputs()
-        N_INPUTS = n_conv_output_dims + CONST.ADD_FC_INPUT_DIM
-        N_OUTPUTS = CONST.CONTINUOUS_ACTION_DIM + np.prod(CONST.DISCRETE_ACTION_DIMS)
+        N_INPUTS = n_conv_output_dims + Const.ADD_FC_INPUT_DIM
+        N_OUTPUTS = Const.CONTINUOUS_ACTION_DIM + np.prod(Const.DISCRETE_ACTION_DIMS)
 
         self._fc_layers = nn.ModuleList()
 
@@ -104,9 +104,9 @@ class NeuralNetwork(nn.Module):
             # if there are no convolutional layers,
             # then the flattened length is used.
             n_conv_outputs = (
-                np.prod(CONST.CONV_INPUT_DIMS)
-                if len(CONST.CONV_INPUT_DIMS) > 1
-                else CONST.CONV_INPUT_DIMS[0]
+                np.prod(Const.CONV_INPUT_DIMS)
+                if len(Const.CONV_INPUT_DIMS) > 1
+                else Const.CONV_INPUT_DIMS[0]
             )
         else:
             # if there are any convolutional layers,

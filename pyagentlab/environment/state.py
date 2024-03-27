@@ -7,14 +7,14 @@ this file defines a generic State in the environment.
 
 import itertools
 import numpy as np
-from pyagentlab.constants import CONST, uses_conv, uses_add_fc
+from pyagentlab.constants import Const, uses_conv, uses_add_fc
 from .outcome import OUTCOME
 
 
 def _apply_perspective(objective_number, perspective):
     if objective_number == 0:
         return 0
-    return (objective_number - perspective) % CONST.N_PLAYERS + 1
+    return (objective_number - perspective) % Const.N_PLAYERS + 1
 
 
 class State:
@@ -35,12 +35,12 @@ class State:
     # sets up static aspects of the State class. intentionally blank.
     def setup():
         State.BLANK_CONV_OBS = (
-            np.full(CONST.CONV_INPUT_DIMS, State.ONE_HOT_FALSE, dtype=State.MEM_DTYPE)
+            np.full(Const.CONV_INPUT_DIMS, State.ONE_HOT_FALSE, dtype=State.MEM_DTYPE)
             if uses_conv()
             else None
         )
         State.BLANK_ADD_FC_OBS = (
-            np.full(CONST.ADD_FC_INPUT_DIM, State.ONE_HOT_FALSE, dtype=State.MEM_DTYPE)
+            np.full(Const.ADD_FC_INPUT_DIM, State.ONE_HOT_FALSE, dtype=State.MEM_DTYPE)
             if uses_add_fc()
             else None
         )
@@ -96,11 +96,11 @@ class State:
         legal = True
 
         if not self.action_is_legal(action, player_num):
-            player_done = CONST.ILLEGAL_ENDS_PLAYER
-            if CONST.ILLEGAL_ENDS_PLAYER or CONST.ILLEGAL_ENDS_ENTIRE_ENV:
+            player_done = Const.ILLEGAL_ENDS_PLAYER
+            if Const.ILLEGAL_ENDS_PLAYER or Const.ILLEGAL_ENDS_ENTIRE_ENV:
                 outcome = (
                     OUTCOME.LOSS
-                    if CONST.ILLEGAL_END_IS_LOSS
+                    if Const.ILLEGAL_END_IS_LOSS
                     else OUTCOME.FORFEIT_BY_ILLEGAL
                 )
             legal = False
