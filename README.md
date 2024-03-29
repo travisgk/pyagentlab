@@ -82,7 +82,7 @@ random_player = Player(RANDOM_PROFILE)
 ```
 <br>
 
-Finally, a list of players is created, the environment is created for the custom State class, and episodes are played:
+Finally, a list of players is created and some episodes are played:
 ```
 players = [neural_player, random_player]
 play_episodes(10000, env, players, is_training=True)
