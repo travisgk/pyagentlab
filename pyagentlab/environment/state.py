@@ -35,12 +35,12 @@ class State:
     # sets up static aspects of the State class. intentionally blank.
     def setup():
         State.BLANK_CONV_OBS = (
-            np.full(Const.CONV_INPUT_DIMS, State.ONE_HOT_FALSE, dtype=State.MEM_DTYPE)
+            np.full(Const.CONV_INPUT_DIMS, State.ONE_HOT_FALSE, dtype=np.float32)
             if uses_conv()
             else None
         )
         State.BLANK_ADD_FC_OBS = (
-            np.full(Const.ADD_FC_INPUT_DIM, State.ONE_HOT_FALSE, dtype=State.MEM_DTYPE)
+            np.full(Const.ADD_FC_INPUT_DIM, State.ONE_HOT_FALSE, dtype=np.float32)
             if uses_add_fc()
             else None
         )

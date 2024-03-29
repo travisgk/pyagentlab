@@ -21,6 +21,9 @@ def main():
     Const.WIN_ENDS_ENTIRE_ENV = True
     Const.finalize()
     GomokuState.WIN_LENGTH = 3
+
+    env = Environment(StateClass=GomokuState)
+
     NEURAL_PROFILE = NeuralProfile(
         # outcome settings.
         WIN_REWARD=1.0,
@@ -70,13 +73,7 @@ def main():
         ALGORITHM_NAME="neural",
     )
     neural_player = NeuralPlayer(NEURAL_PROFILE)
-
-    RANDOM_PROFILE = Profile(ENFORCE_LEGALITY=True)
-    random_player = Player(RANDOM_PROFILE)
-
     players = [neural_player, neural_player]
-
-    env = Environment(StateClass=GomokuState)
 
     print("Beginning to run episodes.")
     play_episodes(100000, env, players, is_training=True)
