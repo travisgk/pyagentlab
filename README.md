@@ -61,6 +61,7 @@ Now it's time to initialize the environment with the custom State.
 ```
 env = Environment(StateClass=GomokuState)
 ```
+<br>
 
 The architecture and behavior of a neural network is specified with a `NeuralProfile` and its contained list of `ConvLayerSpec` objects and `FClayerSpec` objects, then an agent network is created as a `NeuralPlayer`:
 ```
