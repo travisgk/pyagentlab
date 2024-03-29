@@ -56,6 +56,12 @@ GomokuState.WIN_LENGTH = 3
 <br>
 
 The system has now been set up to accomodate the game's custom State.
+Now it's time to initialize the environment with the custom State. 
+**This must be done before creating the players.**
+```
+env = Environment(StateClass=GomokuState)
+```
+
 The architecture and behavior of a neural network is specified with a `NeuralProfile` and its contained list of `ConvLayerSpec` objects and `FClayerSpec` objects, then an agent network is created as a `NeuralPlayer`:
 ```
 NEURAL_PROFILE = NeuralProfile(
@@ -78,7 +84,6 @@ random_player = Player(RANDOM_PROFILE)
 Finally, a list of players is created, the environment is created for the custom State class, and episodes are played:
 ```
 players = [neural_player, random_player]
-env = Environment(StateClass=GomokuState)
 play_episodes(10000, env, players, is_training=True)
 
 # saves the neural network's weights to file.
