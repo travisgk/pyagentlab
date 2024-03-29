@@ -116,7 +116,7 @@ class NeuralNetwork(nn.Module):
             with T.no_grad():
                 conv_output = self._conv_layers[0](t_conv_obs)
                 for conv_layer in self._conv_layers[1:]:
-                    conv_output = conv_layer(conv_layer)
+                    conv_output = conv_layer(conv_output)
             n_conv_outputs = np.prod(conv_output.size())
         return n_conv_outputs
 
