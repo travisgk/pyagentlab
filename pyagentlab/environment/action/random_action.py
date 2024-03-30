@@ -11,7 +11,8 @@ from pyagentlab.constants import Const
 from .action import subjective_action_from_network_output
 
 
-# returns an action with random values that fall within Const specifications.
+# returns an action tuple with random values
+# that fall within Const specifications.
 def random_subjective_action(illegal_action_mask=None):
     continuous_output = [
         (
@@ -30,7 +31,6 @@ def random_subjective_action(illegal_action_mask=None):
     ]
 
     output = continuous_output + discrete_output
-
     action = subjective_action_from_network_output(output, illegal_action_mask)
 
     return action

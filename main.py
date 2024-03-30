@@ -19,6 +19,9 @@ def main():
     Const.DISCRETE_ACTION_DIMS = (width, height)
     Const.CONTINUOUS_ACTION_DIM = 0
     Const.WIN_ENDS_ENTIRE_ENV = True
+    Const.WINS_BY_ENDING_LOSS = True
+    Const.LOSES_BY_ENDING_WIN = True
+    Const.ALL_LOSSES_IS_DRAW = True
     Const.finalize()
     GomokuState.WIN_LENGTH = 3
 
@@ -30,8 +33,6 @@ def main():
         DRAW_REWARD=1.0,
         LOSS_REWARD=0.0,
         ILLEGAL_REWARD=-0.1,
-        WIN_REWARD_RANK_FACTOR=0.9,
-        LOSS_REWARD_RANK_FACTOR=0.9,
         # epsilon settings.
         EPS_START=0.7,
         EPS_DEC=5e-6,
@@ -43,7 +44,7 @@ def main():
         GAMMA=0.8,
         MINIBATCH_SIZE=6,
         REPLACE_TARGET_INTERVAL=0,
-        FORCE_ILLEGALS_IN_NEXTS=True,
+        SET_Q_OF_ILLEGALS_IN_NEXTS_TO_ZERO=True,
         # learn rate settings.
         LR=0.001,
         LR_SCHEDULER_FACTOR=0.5,

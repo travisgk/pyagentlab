@@ -1,13 +1,13 @@
 """
-pyagentlab/player/_last_prev
+pyagentlab/player/_last_prev_states.py
 ---
-this file defines a class used exclusively by the LearningPlayer class
-to maintain the last inputs given to the LearningPlayer object
+this file defines a class used exclusively by the _LearningPlayer class
+to maintain the last inputs given to the _LearningPlayer object
 through its <LearningPlayer.process_step_and_learn()> method,
 with the last inputs for each active perspective being stored
 at its own respective index.
 
-in a multiplayer game, the immediate next state can't be used
+in a multiplayer game, the immediate next state cannot be used
 to create transitions, as the immediate next state will have
 a different player, which means the value of that particular next state
 cannot be approximated.
@@ -18,7 +18,7 @@ from pyagentlab.environment.state import State, BLANK_STATE
 from pyagentlab.memory.transition import Transition
 
 
-class LastPrevStatesByPerspective:
+class _LastPrevStatesByPerspective:
     def __init__(self):
         self.states = []
         self.conv_obs_list = []
@@ -66,7 +66,7 @@ class LastPrevStatesByPerspective:
 
     # returns 1) a transition from the last stored values
     # to a given <prev_state> and 2) if the action was legal.
-    def create_transition_last_to_prev(
+    def create_transition_legality_tuple_from_last(
         self,
         PROFILE,
         player_index,

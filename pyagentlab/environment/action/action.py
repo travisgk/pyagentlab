@@ -40,10 +40,11 @@ def combo_num_to_action(combo_num):
     return action
 
 
-# returns the action (tuple) composed of the network <outputs>
+# returns the action (tuple) composed of the network <output>'s
 # continuous action space outputs and of the indices
 # selecting the highest value out of each respective discrete action space.
 # <output> should be a one-dimensional numpy array.
+# ---
 # this function is not useful with continuous action spaces.
 def subjective_action_from_network_output(output, illegal_action_mask=None):
     # output_copy = np.array( copy.deepcopy( output ))

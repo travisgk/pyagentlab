@@ -57,6 +57,9 @@ class NeuralPlayer(_LearningPlayer):
             else None
         )
 
+    # returns an action tuple chosen by the Player,
+    # with each element corresponding to a selection
+    # within each defined discrete action space.
     def choose_action(self, state, conv, add_fc, player_num):
         illegal_mask = None
 
@@ -226,9 +229,8 @@ class NeuralPlayer(_LearningPlayer):
                 else t_evals
             )
 
-            # manually sets the Q-values of illegal actions in the next states
-            # to <self.PROFILE.ILLEGAL_REWARD> if specified to do so.
-            if self.PROFILE.FORCE_ILLEGALS_IN_NEXTS:
+            # manually sets the Q-values of illegal actions in the next states.
+            if self.PROFILE.SET_Q_OF_ILLEGALS_IN_NEXTS_TO_ZERO:
                 for i, t in enumerate(transitions):
                     if not next_is_dones[i] and t.prev_state.action_is_legal(t.action):
                         m = t.next_state.create_illegal_subjective_action_mask(

@@ -30,7 +30,7 @@ class Const:
     CONV_INPUT_DIMS = (3, 3)
     ADD_FC_INPUT_DIM = 0
 
-    # this version of PANDA can facilitate continuous action outputs,
+    # this version of pyagentlab can facilitate continuous action outputs,
     # however, learning algorithms for continuous actions have not
     # yet been implemented.
     CONTINUOUS_ACTION_DIM = 0
@@ -60,13 +60,13 @@ class Const:
     # sets the outcome behavior for the other players when one player's outcome
     # brings the environment to an end for every player.
     # False means that the other players will get an outcome of INTERRUPTED.
-    WINS_BY_ENDING_LOSS = True
+    WINS_BY_ENDING_LOSS = False
     WINS_BY_FORFEIT = False
-    LOSES_BY_ENDING_WIN = True
+    LOSES_BY_ENDING_WIN = False
 
-    # sets the outcome behavior for when all terminal outcomes match.
+    # sets the outcome behavior for when all players' terminal outcomes match.
     ALL_WINS_IS_DRAW = False
-    ALL_LOSSES_IS_DRAW = True
+    ALL_LOSSES_IS_DRAW = False
 
     # logging setting (graphs are not yet implemented).
     ENV_LOG_HISTORY_INTERVAL = 100

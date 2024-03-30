@@ -30,12 +30,8 @@ class GomokuState(State):
 
     def __copy__(self):
         copy_state = GomokuState()
-
         copy_state.conv = copy.deepcopy(self.conv) if uses_conv() else None
         copy_state.add_fc = copy.deepcopy(self.add_fc) if uses_add_fc() else None
-
-        # copy_state.conv = np.copy( self.conv ) if uses_conv() else None
-        # copy_state.add_fc = np.copy( self.add_fc ) if uses_add_fc() else None
         return copy_state
 
     # sets up static aspects of this State class.

@@ -13,11 +13,12 @@ from pyagentlab.memory.continuous_bank import ContinuousBank
 from pyagentlab.memory.episode import Episode
 from pyagentlab.memory.episode_bank import EpisodeBank
 from pyagentlab.memory.transition import Transition
-from ._last_prev_states import LastPrevStatesByPerspective
+from ._last_prev_states import _LastPrevStatesByPerspective
 from .player import Player
 
 
 class _LearningPlayer(Player):
+    # init. sets up the Player's memory bank for Transitions.
     def __init__(self, PROFILE):
         super().__init__(PROFILE)
         self.can_learn = True
@@ -32,10 +33,17 @@ class _LearningPlayer(Player):
         super().reset()
         if not self.PROFILE.CONTINUOUS_MEMORY:
             self._active_episodes = []
-        self._last_prev = LastPrevStatesByPerspective()
+        self._last_prev = _LastPrevStatesByPerspective()
 
+    # stores the Transition from this method's last given State/observations
+    # to the State/observations being currently given.
+    #
+    # if the Player is <done> upon the current call,
+    # then a terminal transition will be stored as well.
+    # ---
     # this method should be run after the environment is stepped forward.
-    # the transition from <self.last_prev.states[player_num - 1]>
+    # ---
+    # specifically, the transition from <self._last_prev.states[player_num-1]>
     # to the previous state <state> will be stored.
     def process_step_and_learn(
         self, player_num, state, conv, add_fc, action, reward, done, legal
@@ -47,13 +55,14 @@ class _LearningPlayer(Player):
         # stores transition from the last previous state to previous state.
         if self._last_prev.states[index]:
             transitions_and_legality.append(
-                self._last_prev.create_transition_last_to_prev(
+                self._last_prev.create_transition_legality_tuple_from_last(
                     self.PROFILE, index, state, conv, add_fc
                 )
             )
 
-        # processes transition from the previous state to terminal state.
-        # since a terminal state has a Q-value of 0.0, the state is arbitrary.
+        # processes transition from the previous state to a terminal state.
+        # since a terminal state has a Q-value of 0.0,
+        # the given state and observations are arbitrary.
         if done:
             transitions_and_legality.append(
                 (
@@ -80,7 +89,6 @@ class _LearningPlayer(Player):
             for transition, is_legal in transitions_and_legality:
                 self._active_episodes[index].add_entry(transition, is_legal)
 
-        # resets slot.
         if done:
             self._last_prev.reset_slot(index)
 
@@ -88,9 +96,10 @@ class _LearningPlayer(Player):
         else:
             self._last_prev.set_slot(index, state, conv, add_fc, action, reward, legal)
 
-    # fills lists with None in order to contain the last inputs of
-    # <process_step_and_learn>.
-    # creates a new episode to maintain Transitions if specified.
+    # allocates storage for playing information for a particular perspective.
+    # it fills lists with None in order to contain the last inputs of
+    # <process_step_and_learn>. creates a new episode to maintain Transitions
+    # if continuous memory is not being used.
     def _allocate_new_perspective(self, perspective):
         super()._allocate_new_perspective(perspective)
         player_index = perspective - 1
@@ -106,7 +115,11 @@ class _LearningPlayer(Player):
         ):
             self._active_episodes[player_index] = Episode(perspective)
 
+    # processes any Episodes held in memory
+    # and appends these Transitions.
+    # ---
     # this method should be run after the end of an episode.
+    # ---
     # the transition from <self.last_prev_state>
     # to an arbitrary terminal_state will be stored.
     # <player_outcomes> come from the Environment class
@@ -116,24 +129,32 @@ class _LearningPlayer(Player):
         scores = [None for _ in range(len(self._active_episodes))]
         active_slots = self._last_prev.get_active_slots()
 
+        # a terminal transition is created for perspectives
+        # that did not reach a terminal state.
         for player_index in active_slots:
             if player_outcomes[player_index] != OUTCOME.INTERRUPTED:
                 # since a terminal state has a Q-value of 0.0,
                 # the given next state and observations are arbitrary.
-                transition, legal = self._last_prev.create_transition_last_to_prev(
-                    self.PROFILE,
-                    player_index,
-                    BLANK_STATE,
-                    State.BLANK_CONV_OBS,
-                    State.BLANK_ADD_FC_OBS,
-                    True,
+                terminal_transition, legal = (
+                    self._last_prev.create_transition_legality_tuple_from_last(
+                        self.PROFILE,
+                        player_index,
+                        BLANK_STATE,
+                        State.BLANK_CONV_OBS,
+                        State.BLANK_ADD_FC_OBS,
+                        True,
+                    )
                 )
 
                 # stores this last transition in TransitionBank.
                 if self.PROFILE.CONTINUOUS_MEMORY:
-                    self._transition_bank.store_transition(transition, player_index + 1)
+                    self._transition_bank.store_transition(
+                        terminal_transition, player_index + 1
+                    )
                 else:
-                    self._active_episodes[player_index].add_entry(transition, legal)
+                    self._active_episodes[player_index].add_entry(
+                        terminal_transition, legal
+                    )
             self._last_prev.reset_slot(player_index)
 
         # finalizes the episodes (if being used) and stores them in memory.

@@ -45,7 +45,7 @@ class NeuralProfile(Profile):
         GAMMA=0.99,
         MINIBATCH_SIZE=32,
         REPLACE_TARGET_INTERVAL=0,
-        FORCE_ILLEGALS_IN_NEXTS=True,
+        SET_Q_OF_ILLEGALS_IN_NEXTS_TO_ZERO=True,
         # learn rate settings.
         LR=0.1,
         LR_SCHEDULER_FACTOR=0.0,
@@ -112,7 +112,7 @@ class NeuralProfile(Profile):
             NeuralProfile._CATEGORIES.rearrange_categories(category_order)
 
         self.REPLACE_TARGET_INTERVAL = REPLACE_TARGET_INTERVAL
-        self.FORCE_ILLEGALS_IN_NEXTS = FORCE_ILLEGALS_IN_NEXTS
+        self.SET_Q_OF_ILLEGALS_IN_NEXTS_TO_ZERO = SET_Q_OF_ILLEGALS_IN_NEXTS_TO_ZERO
         if not NeuralProfile._categorized:
             NeuralProfile._CATEGORIES.organize_new_keys(
                 self.__dict__.keys(), "learn settings"

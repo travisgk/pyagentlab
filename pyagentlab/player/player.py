@@ -7,6 +7,8 @@ which can interact with the environment.
 the same Player object can be used to play for multiple perspectives
 in a multiplayer environment. lists will be allocated so that
 a particular index will represent the data unique to a particular perspective.
+so if the same Player object is playing against itself in a game,
+it will maintain two separate Episodes, one for each perspective.
 
 the general workflow with this is:
 objective State --> subjective observations 
@@ -36,6 +38,9 @@ class Player:
     def reset(self):
         return
 
+    # returns an action tuple chosen by the Player,
+    # with each element corresponding to a selection
+    # within each defined discrete action space.
     def choose_action(self, state, conv, add_fc, player_num):
         if self.PROFILE.ENFORCE_LEGALITY:
             illegal_mask = state.create_illegal_subjective_action_mask(player_num)
@@ -45,15 +50,17 @@ class Player:
         objective_action = state.make_action_objective(subjective_action)
         return objective_action
 
+    # allocates lists for the perspective of <player_num> if it hasn't already.
+    # epsilon will also be decremented as well.
     # this method should be run after the environment is stepped forward.
     def process_step_and_learn(
         self, player_num, state, conv, add_fc, action, reward, done, legal
     ):
         Player._allocate_new_perspective(self, player_num)
-        player_index = player_num - 1
         self._decrement_eps_method()
 
     # allocates storage for playing information for a particular perspective.
+    # it's designed in this base class to be overridden by its children.
     def _allocate_new_perspective(self, perspective):
         return
 
@@ -63,6 +70,8 @@ class Player:
         return [None]
 
     # changes epsilon values and determines the method of decrement.
+    # if the <eps_dec> is less than 0.5, then linear decay is used.
+    # otherwise, exponential decay is used.
     def change_epsilon(self, eps_start=-1.0, eps_min=-1.0, eps_dec=-1.0):
         if eps_start >= 0.0:
             self._epsilon = eps_start

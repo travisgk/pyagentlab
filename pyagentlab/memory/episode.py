@@ -26,8 +26,13 @@ class Episode:
     # ---
     # sets the reward for reaching a particular outcome.
     # RANK FACTORS are used to reduce the reward for worse ranks.
-    # the player with a win of the 3nd best rank will have
-    # WIN VALUE multiplied by its respective RANK FACTOR twice.
+    # the player with a win of the 3rd best rank will have
+    # WIN REWARD multiplied by its respective RANK FACTOR twice.
+    #
+    # <worst_rank> is given to the method if a loss needs
+    # to have its LOSS REWARD multiplied, in which case the
+    # player who lost in 4th place but did better than 5th place
+    # will have its LOSS REWARD multiplied by its RANK FACTOR once.
     # ---
     # this method also calculates the total return for each
     # Transition if it is specified to do so by the <PROFILE>.
@@ -65,6 +70,8 @@ class Episode:
             for i in legal_indices:
                 G = self.transitions[i].reward + PROFILE.GAMMA * G
                 self.transitions[i].reward = G
+
+        # resets and returns.
         self._legals = []
         return score
 
