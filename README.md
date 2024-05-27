@@ -1,4 +1,4 @@
-# pyagentlab (v0.1)
+# pyagentlab
 This package allows for the quick creation of agent networks (autonomous entities) and testing them in a defined custom environment.
 <br>
 <br>
